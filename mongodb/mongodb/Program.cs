@@ -6,7 +6,8 @@ namespace mongodb
     {
         static void Main(string[] args)
         {
-            var t = ManipulandoDocumentos.AsyncMain();
+            //var t = ManipulandoDocumentos.AsyncMain();
+            var t = AcessandoMongoDB.AsyncMain();
             Console.ReadLine();
         }
     }
