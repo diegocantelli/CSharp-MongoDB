@@ -80,5 +80,43 @@ namespace mongodb
                 throw;
             }
         }
+
+        public static async Task ListandoDocumentosDaColecaoPorFiltroUsandoBuilder()
+        {
+            var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
+
+            // Ao passar new BsonDocument(), significa que não será usado nenhum parâmetro de busca
+
+            try
+            {
+                var construtor = Builders<Livro>.Filter;
+
+                // Busca os livros cujo título seja igual ao parâmetro informado
+                var condicao = construtor.Eq(x => x.Título, "Livro teste");
+
+                // Gte -> Greater Than or equal
+                var condicao2 = construtor.Gte(x => x.Ano, 2000);
+
+                // Utilizando critérios de busca compostos
+                var condicao3 = construtor.Gte(x => x.Ano, 2000) & construtor.Gte(x => x.Páginas, 50);
+
+                // Realizando a busca dentro de um array existente no documento
+                var condicao4 = construtor.AnyEq(x => x.Assunto, "Terror");
+
+                var livros = await colection.Find(condicao).ToListAsync();
+
+                foreach (var livro in livros)
+                {
+                    Console.WriteLine($"{livro.ToJson<Livro>()}");
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
     }
 }
