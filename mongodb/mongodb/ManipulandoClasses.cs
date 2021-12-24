@@ -118,5 +118,35 @@ namespace mongodb
                 throw;
             }
         }
+
+        public static async Task ListandoDocumentosDaColecaoOrdenados()
+        {
+            var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
+
+            // Ao passar new BsonDocument(), significa que não será usado nenhum parâmetro de busca
+
+            try
+            {
+                var construtor = Builders<Livro>.Filter;
+
+                // Busca os livros cujo título seja igual ao parâmetro informado
+                var condicao = construtor.Eq(x => x.Título, "Livro teste");
+
+                // Ordenando os resultados com base no Autor
+                var livros = await colection.Find(condicao).SortBy(x => x.Autor).ToListAsync();
+
+                foreach (var livro in livros)
+                {
+                    Console.WriteLine($"{livro.ToJson<Livro>()}");
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
     }
 }
