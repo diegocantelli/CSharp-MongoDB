@@ -31,7 +31,7 @@ namespace mongodb
             //add o array ao documento principal
             doc.Add("Assunto", assuntoArray);
 
-            var strConexao = "mongodb://root:example@mongo:27017";
+            var strConexao = "mongodb://root:example@localhost:27017";
             IMongoClient client = new MongoClient(strConexao);
 
             //Se não existir a base Biblioteca, esta será criada
@@ -40,7 +40,16 @@ namespace mongodb
             //Se não existir a coleção, esta será criada
             IMongoCollection<BsonDocument> colecao = database.GetCollection<BsonDocument>("Livros");
 
-            Console.WriteLine(doc);
+            try
+            {
+                await colecao.InsertOneAsync(doc);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            Console.WriteLine("Documento incluído!");
         }
     }
 }
