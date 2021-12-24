@@ -37,6 +37,9 @@ namespace mongodb
             //Se não existir a base Biblioteca, esta será criada
             IMongoDatabase database = client.GetDatabase("Biblioteca");
 
+            //Se não existir a coleção, esta será criada
+            IMongoCollection<BsonDocument> colecao = database.GetCollection<BsonDocument>("Livros");
+
             Console.WriteLine(doc);
         }
     }
