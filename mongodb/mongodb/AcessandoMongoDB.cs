@@ -34,6 +34,9 @@ namespace mongodb
             var strConexao = "mongodb://root:example@mongo:27017";
             IMongoClient client = new MongoClient(strConexao);
 
+            //Se não existir a base Biblioteca, esta será criada
+            IMongoDatabase database = client.GetDatabase("Biblioteca");
+
             Console.WriteLine(doc);
         }
     }
