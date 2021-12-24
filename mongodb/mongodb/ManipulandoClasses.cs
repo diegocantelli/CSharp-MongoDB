@@ -21,7 +21,8 @@ namespace mongodb
 
             
             var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
-            var colection = mongoConn.ConnectAndReturnCollection<Livro>();
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
             await colection.InsertOneAsync(livro);
 
             Console.WriteLine("Documento incluído!");
@@ -30,13 +31,43 @@ namespace mongodb
         public static async Task ListandoDocumentosDaColecao()
         {
             var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
-            var colection = mongoConn.ConnectAndReturnCollection<Livro>();
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
 
             // Ao passar new BsonDocument(), significa que não será usado nenhum parâmetro de busca
 
             try
             {
                 var livros = await colection.Find(new BsonDocument()).ToListAsync();
+
+                foreach (var livro in livros)
+                {
+                    Console.WriteLine($"{livro.ToJson<Livro>()}");
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static async Task ListandoDocumentosDaColecaoPorFiltro()
+        {
+            var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
+
+            // Ao passar new BsonDocument(), significa que não será usado nenhum parâmetro de busca
+
+            try
+            {
+                var filtro = new BsonDocument()
+                {
+                    {"Título", "Livro teste" }
+                };
+
+                var livros = await colection.Find(filtro).ToListAsync();
 
                 foreach (var livro in livros)
                 {

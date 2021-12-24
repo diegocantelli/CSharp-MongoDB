@@ -22,11 +22,11 @@ namespace mongodb
             _collection = collection;
         }
 
-        public IMongoCollection<T> ConnectAndReturnCollection<T>()
+        public IMongoDatabase Connect()
         {
             Client = new MongoClient(_strConn);
             Database = Client.GetDatabase(_database);
-            return Database.GetCollection<T>(_collection);
+            return Database;
         }
     }
 }
