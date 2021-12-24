@@ -8,7 +8,7 @@ namespace mongodb
         {
             //var t = ManipulandoDocumentos.AsyncMain();
             //var t = AcessandoMongoDB.AsyncMain();
-            var t = ManipulandoClasses.AsyncMain();
+            var t = ManipulandoClasses.ListandoDocumentosDaColecao();
             Console.ReadLine();
         }
     }
