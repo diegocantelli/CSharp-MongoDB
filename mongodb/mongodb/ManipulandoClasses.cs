@@ -135,7 +135,10 @@ namespace mongodb
                 var condicao = construtor.Eq(x => x.Título, "Livro teste");
 
                 // Ordenando os resultados com base no Autor
-                var livros = await colection.Find(condicao).SortBy(x => x.Autor).ToListAsync();
+                var livros = await colection.Find(condicao)
+                    .SortBy(x => x.Autor)
+                    .Limit(2) // Retorna apenas os 2 primeiros resultados
+                    .ToListAsync();
 
                 foreach (var livro in livros)
                 {
