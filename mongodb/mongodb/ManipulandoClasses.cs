@@ -185,5 +185,44 @@ namespace mongodb
 
             Console.WriteLine("Documentos alterados com sucesso!");
         }
+
+        public static async Task AlterandoDocumentoComBuilder()
+        {
+            var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
+
+            try
+            {
+                var construtor = Builders<Livro>.Filter;
+
+                // Busca os livros cujo título seja igual ao parâmetro informado
+                var condicao = construtor.Eq(x => x.Título, "Livro teste");
+
+                // Ordenando os resultados com base no Autor
+                var livros = await colection.Find(condicao).ToListAsync();
+
+                //Alterando um documento no mongoDB com utilizando builder
+                var builderAlteracao = Builders<Livro>.Update;
+                var condicaoAlteracao = builderAlteracao.Set(x => x.Ano, 2001);
+                await colection.UpdateOneAsync(condicao, condicaoAlteracao);
+
+                foreach (var livro in livros)
+                {
+                    livro.Ano = 2021;
+                    livro.Páginas = 400;
+
+                    // Substituindo os dados do livro com base na condição do filtro
+                    await colection.ReplaceOneAsync(condicao, livro);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            Console.WriteLine("Documentos alterados com sucesso!");
+        }
     }
 }
