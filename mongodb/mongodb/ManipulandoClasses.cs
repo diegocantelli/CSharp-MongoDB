@@ -224,5 +224,33 @@ namespace mongodb
 
             Console.WriteLine("Documentos alterados com sucesso!");
         }
+
+        public static async Task ExcluindoDocumentos()
+        {
+            var mongoConn = new MongoDBConnection("mongodb://root:example@localhost:27017", "Biblioteca", "Livros");
+            var database = mongoConn.Connect();
+            var colection = database.GetCollection<Livro>("Livros");
+
+            try
+            {
+                var construtor = Builders<Livro>.Filter;
+
+                // Busca os livros cujo título seja igual ao parâmetro informado
+                var condicaoFiltro = construtor.Eq(x => x.Título, "Livro teste");
+
+                // Ordenando os resultados com base no Autor
+                var livros = await colection.Find(condicaoFiltro).ToListAsync();
+
+                await colection.DeleteManyAsync(condicaoFiltro);
+               
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            Console.WriteLine("Documentos excluídos com sucesso!");
+        }
     }
 }

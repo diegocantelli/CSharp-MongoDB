@@ -11,7 +11,8 @@ namespace mongodb
             //var t = ManipulandoClasses.ListandoDocumentosDaColecao();
             //var t = ManipulandoClasses.ListandoDocumentosDaColecaoPorFiltro();
             //var t = ManipulandoClasses.ListandoDocumentosDaColecaoPorFiltroUsandoBuilder();
-            var t = ManipulandoClasses.AlterandoDocumento();
+            //var t = ManipulandoClasses.AlterandoDocumento();
+            var t = ManipulandoClasses.ExcluindoDocumentos();
             Console.ReadLine();
         }
     }
