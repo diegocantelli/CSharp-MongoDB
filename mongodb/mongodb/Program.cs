@@ -10,7 +10,8 @@ namespace mongodb
             //var t = AcessandoMongoDB.AsyncMain();
             //var t = ManipulandoClasses.ListandoDocumentosDaColecao();
             //var t = ManipulandoClasses.ListandoDocumentosDaColecaoPorFiltro();
-            var t = ManipulandoClasses.ListandoDocumentosDaColecaoPorFiltroUsandoBuilder();
+            //var t = ManipulandoClasses.ListandoDocumentosDaColecaoPorFiltroUsandoBuilder();
+            var t = ManipulandoClasses.AlterandoDocumento();
             Console.ReadLine();
         }
     }
